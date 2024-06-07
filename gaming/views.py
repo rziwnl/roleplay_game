@@ -1,8 +1,8 @@
-# gaming/views.py
 import random
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from .forms import PlayerForm
-from .models import Player, Monster, Inventory, Market
+from .models import Player, Monster
 
 def home(request):
     if request.method == 'POST':
@@ -15,21 +15,21 @@ def home(request):
     return render(request, 'index.html', {'form': form})
 
 def main(request):
-    player = Player.objects.last() 
+    player = Player.objects.last()  # Récupère le dernier joueur créé
     return render(request, 'gaming/main.html', {'player': player})
 
 def game_view(request):
-    player = Player.objects.last() 
+    player = Player.objects.last()  # Récupère le dernier joueur créé
     return render(request, 'gaming/game.html', {'player': player})
 
 def fight_monster(request):
-    player = Player.objects.last() 
+    player = Player.objects.last()  # Récupère le dernier joueur créé
     monsters = list(Monster.objects.all())
-    monster = random.choice(monsters) 
+    monster = random.choice(monsters)  # Sélectionne un monstre aléatoire
     return redirect('battle', monster_id=monster.id)
 
 def battle(request, monster_id):
-    player = Player.objects.last()  
+    player = Player.objects.last()  # Récupère le dernier joueur créé
     monster = get_object_or_404(Monster, id=monster_id)
     
     if request.method == 'POST':
@@ -37,12 +37,15 @@ def battle(request, monster_id):
         if action == 'attack':
             monster.health -= player.attack
             if monster.health <= 0:
+                player.experience += 10
+                player.save()
+                messages.success(request, f'You defeated {monster.name} and win 10 exp. You pick up {monster.loot}!')
                 monster.delete()
                 return redirect('main')
             else:
                 player.health -= monster.attack
                 if player.health <= 0:
-                    player.health = 100 
+                    player.health = 100
                     return redirect('home')
                 player.save()
                 monster.save()

@@ -40,6 +40,7 @@ class Monster(models.Model):
     name = models.CharField(max_length=100)
     health = models.IntegerField(default=50)
     attack = models.IntegerField(default=5)
+    loot = models.CharField(max_length=100, default="Common item")
 
     def __str__(self):
         return self.name
