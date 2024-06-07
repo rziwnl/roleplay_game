@@ -13,5 +13,5 @@ def home(request):
     return render(request, 'index.html', {'form': form})
 
 def game_view(request):
-    player = Player.objects.last()
+    player = Player.objects.last() 
     return render(request, 'gaming/game.html', {'player': player})
