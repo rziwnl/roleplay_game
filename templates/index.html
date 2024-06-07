@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adventure Game - Home</title>
+    <title>Create Player</title>
 </head>
 <body>
-    <h1>Welcome to the Adventure Game</h1>
+    <h1>Create Player</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Start Game</button>
+        <button type="submit">Create Player</button>
     </form>
 </body>
 </html>

@@ -1,5 +1,5 @@
 import random
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .forms import PlayerForm
 from .models import Player, Monster
@@ -15,21 +15,24 @@ def home(request):
     return render(request, 'index.html', {'form': form})
 
 def main(request):
-    player = Player.objects.last()  # Récupère le dernier joueur créé
+    player = Player.objects.last()  
     return render(request, 'gaming/main.html', {'player': player})
 
 def game_view(request):
-    player = Player.objects.last()  # Récupère le dernier joueur créé
+    player = Player.objects.last()  
     return render(request, 'gaming/game.html', {'player': player})
 
 def fight_monster(request):
-    player = Player.objects.last()  # Récupère le dernier joueur créé
+    player = Player.objects.last()  
     monsters = list(Monster.objects.all())
-    monster = random.choice(monsters)  # Sélectionne un monstre aléatoire
+    if not monsters:
+        messages.error(request, "Aucun monstre disponible pour le combat.")
+        return redirect('main')
+    monster = random.choice(monsters) 
     return redirect('battle', monster_id=monster.id)
 
 def battle(request, monster_id):
-    player = Player.objects.last()  # Récupère le dernier joueur créé
+    player = Player.objects.last()  
     monster = get_object_or_404(Monster, id=monster_id)
     
     if request.method == 'POST':
@@ -39,7 +42,7 @@ def battle(request, monster_id):
             if monster.health <= 0:
                 player.experience += 10
                 player.save()
-                messages.success(request, f'You defeated {monster.name} and win 10 exp. You pick up {monster.loot}!')
+                messages.success(request, f'Vous avez vaincu {monster.name} et gagné 10 exp. Vous ramassez {monster.loot}!')
                 monster.delete()
                 return redirect('main')
             else:

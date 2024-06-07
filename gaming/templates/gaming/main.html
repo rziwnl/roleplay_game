@@ -10,6 +10,7 @@
         <li><a href="{% url 'game' %}">View Player Info</a></li>
         <li><a href="{% url 'fight_monster' %}">Fight a Monster</a></li> 
     </ul>
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -17,5 +18,6 @@
         {% endfor %}
     </ul>
     {% endif %}
+    
 </body>
 </html>

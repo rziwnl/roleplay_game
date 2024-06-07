@@ -9,6 +9,14 @@ class Player(models.Model):
         ('archer', 'Archer')
     ]
 
+    CLASS_STATS = {
+        'assassin': {'health': 75, 'attack': 35},
+        'warrior': {'health': 120, 'attack': 20},
+        'wizard': {'health': 80, 'attack': 50},
+        'knight': {'health': 150, 'attack': 25},
+        'archer': {'health': 90, 'attack': 30},
+    }
+
     name = models.CharField(max_length=100)
     classe = models.CharField(max_length=100, choices=CLASS_CHOICES)
     health = models.IntegerField(default=100)
@@ -19,6 +27,13 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:  
+            stats = self.CLASS_STATS.get(self.classe, {'health': 100, 'attack': 10})
+            self.health = stats['health']
+            self.attack = stats['attack']
+        super(Player, self).save(*args, **kwargs)
 
 class Inventory(models.Model):
     item_name = models.CharField(max_length=100)
