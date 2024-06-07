@@ -42,7 +42,7 @@ def battle(request, monster_id):
             if monster.health <= 0:
                 player.experience += 10
                 player.save()
-                messages.success(request, f'Vous avez vaincu {monster.name} et gagné 10 exp. Vous ramassez {monster.loot}!')
+                messages.success(request, f'Yopu defeated {monster.name} and win 10 exp. You pick up {monster.loot}!')
                 monster.delete()
                 return redirect('main')
             else:
