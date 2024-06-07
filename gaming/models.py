@@ -13,6 +13,7 @@ class Player(models.Model):
     classe = models.CharField(max_length=100, choices=CLASS_CHOICES)
     health = models.IntegerField(default=100)
     attack = models.IntegerField(default=10)
+    experience = models.IntegerField(default=0)
     inventory = models.ManyToManyField('Inventory', blank=True)
     money = models.IntegerField(default=0)
 

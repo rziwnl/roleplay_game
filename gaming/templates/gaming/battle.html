@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Battle</title>
+</head>
+<body>
+    <h1>Battle: {{ player.name }} vs {{ monster.name }}</h1>
+    <p>{{ player.name }}'s Health: {{ player.health }}</p>
+    <p>{{ monster.name }}'s Health: {{ monster.health }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="action" value="attack">Attack</button>
+        <button type="submit" name="action" value="flee">Flee</button>
+    </form>
+</body>
+</html>

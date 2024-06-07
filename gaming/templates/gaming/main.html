@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Menu</title>
+</head>
+<body>
+    <h1>Welcome, {{ player.name }}</h1>
+    <p>Choose an action:</p>
+    <ul>
+        <li><a href="{% url 'game' %}">View Player Info</a></li>
+        <li><a href="{% url 'fight_monster' %}">Fight a Monster</a></li> 
+    </ul>
+</body>
+</html>

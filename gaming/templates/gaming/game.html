@@ -1,12 +1,16 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Adventure Game</title>
+    <title>Player Info</title>
 </head>
 <body>
-    <h1>Welcome, {{ player.name }}</h1>
-    <p>Classe: {{ player.classe }}</p>
+    <h1>Player Info</h1>
+    <p>Name: {{ player.name }}</p>
+    <p>Class: {{ player.classe }}</p>
     <p>Health: {{ player.health }}</p>
+    <p>Attack: {{ player.attack }}</p>
     <p>Experience: {{ player.experience }}</p>
     <p>Money: {{ player.money }}</p>
+    <a href="{% url 'main' %}">Back to Menu</a>
 </body>
 </html>
