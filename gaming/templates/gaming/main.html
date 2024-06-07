@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Game Menu</title>
+    <title>Game Main</title>
 </head>
 <body>
     <h1>Welcome, {{ player.name }}</h1>
     <p>Choose an action:</p>
-    <ul>
-        <li><a href="{% url 'game' %}">View Player Info</a></li>
-        <li><a href="{% url 'fight_monster' %}">Fight a Monster</a></li> 
-    </ul>
 
     {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
-    
+
+    <ul>
+        <li><a href="{% url 'game' %}">View Player Info</a></li>
+        <li><a href="{% url 'fight_monster' %}">Fight a Monster</a></li>
+        <li><a href="{% url 'inventory' %}">View Inventory</a></li> 
+    </ul>
 </body>
 </html>

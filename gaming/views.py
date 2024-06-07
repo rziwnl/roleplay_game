@@ -2,7 +2,7 @@ import random
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .forms import PlayerForm
-from .models import Player, Monster
+from .models import Item, Player, Monster
 
 def home(request):
     if request.method == 'POST':
@@ -23,7 +23,6 @@ def game_view(request):
     return render(request, 'gaming/game.html', {'player': player})
 
 def fight_monster(request):
-    player = Player.objects.last()  
     monsters = list(Monster.objects.all())
     if not monsters:
         messages.error(request, "Aucun monstre disponible pour le combat.")
@@ -41,8 +40,10 @@ def battle(request, monster_id):
             monster.health -= player.attack
             if monster.health <= 0:
                 player.experience += 10
+                loot_item = Item.objects.get_or_create(name=monster.loot, defaults={'description': f"Loot from {monster.name}"})
+                player.inventory.add(loot_item)
                 player.save()
-                messages.success(request, f'Yopu defeated {monster.name} and win 10 exp. You pick up {monster.loot}!')
+                messages.success(request, f'You defeated {monster.name} and win 10 exp. You pick up {monster.loot}!')
                 monster.delete()
                 return redirect('main')
             else:
@@ -55,3 +56,8 @@ def battle(request, monster_id):
         elif action == 'flee':
             return redirect('main')
     return render(request, 'gaming/battle.html', {'player': player, 'monster': monster})
+
+def show_inventory(request):
+    player = Player.objects.last() 
+    inventory = player.inventory.all() 
+    return render(request, 'gaming/inventory.html', {'player': player, 'inventory': inventory})

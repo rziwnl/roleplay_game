@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory</title>
+</head>
+<body>
+    <h1>{{ player.name }}'s Inventory</h1>
+    <ul>
+        {% for item in inventory %}
+            <li>{{ item.name }}: {{ item.description }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'main' %}">Back to Main</a>
+</body>
+</html>
